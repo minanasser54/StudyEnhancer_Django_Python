@@ -152,8 +152,8 @@ LOGIN_REDIRECT_URL='/class'
 #mailing setting
 EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST='smtp.gmail.com'
-EMAIL_HOST_USER='mina.nasser54@gmail.com'
-EMAIL_HOST_PASSWORD='dklttcggpkvnbybr'
+#EMAIL_HOST_USER
+#EMAIL_HOST_PASSWORD
 EMAIL_USE_TLS=True
 EMAIL_PORT='587'
 
