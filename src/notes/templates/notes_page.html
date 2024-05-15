@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Notes{% endblock title %}
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="shoping__cart__table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="shoping__product">Note Lesson</th>
+                            <th>note</th>
+                            <th>By</th>
+                            <th>IN</th>
+                            <th>Edit</th>
+                            <th>Del</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                      {% for note in notes %}
+                      <tr>
+                          <td class="shoping__cart__item">
+                              <h2>{{note}}</h2>
+                          </td>
+                          <td class="shoping__cart__price">
+                              <p>{{note.note|truncatewords:3|safe}}....<a href="{% url 'notes:note_detail' note.slug %}">read more</a></p>
+                          </td>
+                          <td class="shoping__cart__quantity">
+                              <h6>{{note.user.first_name}} {{note.user.last_name}}</h6>
+                          </td>
+                          <td class="shoping__cart__total">
+                            <h6>{{note.created_at|date:"D d M Y"}}</h6>
+                          </td>
+                          <td class="shoping__cart__item__close"><a href="{% url 'notes:edit_note' note.slug %}"><span class="fa fa-pencil"></span></a></td>
+                          <td class="shoping__cart__item__close">
+                              <a href="{% url 'notes:delete_note' note.slug %}"><span class="icon_close"></span></a>
+                          </td>
+                      </tr>
+                      {% endfor %}
+                      {% if notes.has_other_pages %}
+                        <div class="product__pagination">
+                          {% if notes.has_previous %}
+                            <a href="?page={{ notes.previous_page_number }}"><i class="fa fa-long-arrow-left"></i></a>
+                          {% endif %}
+                          {% for page in notes.paginator.page_range %}
+                            <a href="?page={{ page }}">{{page}}</a>
+                          {% endfor %}
+                          {% if notes.has_next %}
+                            <a href="?page={{ notes.next_page_number }}"><i class="fa fa-long-arrow-right"></i></a>
+                          {% endif %}
+                        </div>
+                      {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}

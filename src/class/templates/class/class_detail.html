@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% block title %}{{class_detail.title}}{% endblock title %}
+{% block body %}
+{% load static %}
+{% ifequal  request.user class_detail.owner %}
+
+    <!-- Product Details Section Begin -->
+    <section class="product-details spad">
+        <div class="container">
+            <div class="row">
+              {% if class_detail.main_subject.img %}
+                <div class="col-lg-6 col-md-6">
+                    <div class="product__details__pic">
+                        <div class="product__details__pic__item">
+                            <img class="product__details__pic__item--large"
+                                src="{{class_detail.main_subject.img.url}}" alt="">
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                {% endif %}
+
+                <div class="col-lg-6 col-md-6">
+                    <div class="product__details__text">
+                        <h3>{{class_detail|safe}}</h3>
+                        <div class="product__details__rating">
+                            {% if class_detail.is_active == True %}
+                            <i class="fa fa-star"></i><span>active class</span>
+                            {% endif %}
+                            {% if class_detail.is_online == True %}
+                            <i class="fa fa-star"></i><span>online class</span>
+                            {% endif %}
+                        </div>
+                        {% ifequal class_detail.owner request.user %}
+                        <a href="{% url 'class:edit_class' class_detail.slug %}" ><button class="primary-btn" >Edit Class main info </button></a>
+                        <a href="{% url 'class:del_class' class_detail.slug %}" ><button class="primary-btn" >Delete Class </button></a>
+
+                        {% endifequal %}
+                        <div class="product__details__price">{{class_detail.main_subject}}</div>
+                        <h5>{{class_detail.get_day_one_display}}{% if class_detail.day_two %} // {{class_detail.get_day_two_display}}{% endif %}</h5><br>
+                        <h5>BY:-{{class_detail.tutor}}</h5><br>
+                        <h5>IN:-{{class_detail.place}}</h5><span>{{class_detail.place.phone}}</span><br>
+
+                        <p class="mt-5">NOTES:-<br>{{class_detail.more_info|safe}}</p>
+
+                        <ul>
+                          <a class="primary-btn">class chapters </a>
+                          {% ifequal class_detail.owner request.user %}
+                          <a href="{% url 'class:add_chapter_old_class' class_detail.slug %}" ><button class="primary-btn" >Add Chapter </button></a>
+                          {% endifequal %}
+
+                          {% comment %}
+                            loop on chs and lessons num display
+                          {% endcomment %}
+                          {% ifequal class_detail.owner request.user %}
+                          {% for chapter in chapters %}
+                              <li><b>{{chapter.title}}</b><br><a href="{% url 'class:edit_chapter' class_detail.slug chapter.id %}"><i class="fa fa-star"></i><span>edit chapter name</span></a>
+                                <a href="{% url 'class:add_lesson_old_class'  chapter.title %}"><i class="fa fa-star"></i><span>Add Lesson</span></a>
+                               <a href="{% url 'class:del_chapter'  chapter.id %}"><i class="fa fa-star"></i><span>Del Chapter</span></a>
+                              <br>Lessons :-
+                              {% for lesson in lessons %}
+                                {% ifequal lesson.main_chapter chapter %}
+                                  {% if lesson.is_done == True %}
+                                  <button style="background-color: #555555;" class="btn" name="button"><a href="{% url 'class:lesson' lesson.slug %}"><span>{{lesson}}</span></a>/</button>
+                                  {% endif %}
+                                  {% if lesson.is_done == False %}
+                                  <button style="background-color: #f44336; " class="btn" name="button"><a href="{% url 'class:lesson' lesson.slug %}"><span>{{lesson}}</span></a>/</button>
+                                  {% endif %}
+                              {% endifequal %}
+                            {% endfor %}<hr></li>
+                          {% endfor %}
+                          {% endifequal %}
+
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="product__details__tab">
+                        <ul class="nav nav-tabs" role="tablist">
+                          {% for chapter in chapters %}
+                            <li class="nav-item">
+                                <a class="nav-link " data-toggle="tab" href="#tabs-{{chapter.id}}" role="tab"
+                                    aria-selected="false"><b class="m-2 p-3">{{chapter.title}}</b></a>
+                            </li>
+                          {% endfor %}
+                        </ul>
+                        {% for chapter in chapters %}
+                        <div class="tab-content">
+                            <div class="tab-pane " id="tabs-{{chapter.id}}" role="tabpanel">
+                              <div class="product__details__tab__desc">
+                                <h3>{{chapter.title}} lessons:-</h3>
+                                {% for lesson in lessons%}
+                                  {% ifequal chapter.id lesson.main_chapter.id  %}
+                                  <div class="product__details__rating">
+                                      <a href="{% url 'class:lesson' lesson.slug %}"><b><h4 class="btn btn-primary">{{lesson.title}}</h4></b></a>
+                                        <h6>{{lesson.sub_subject_name}}</h6>
+                                            {% if lesson.is_done == True %}
+                                            <i class="fa fa-star"></i><span>done lesson</span>
+                                            {% endif %}
+                                            {% if lesson.is_online == True %}
+                                            <i class="fa fa-star"></i><span>online lesson</span>
+                                            {% endif %}
+                                        <hr>
+                                      </div>
+                                  {% endifequal %}
+                                {% endfor %}
+                              </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Product Details Section End -->
+    {% endifequal %}
+
+{% endblock body %}

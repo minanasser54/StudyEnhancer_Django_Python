@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}profile edit{% endblock title %}
+{% block body %}
+{% load bootstrap4 %}
+<div class="container">
+  <div class=" col-md-12">
+    <form  method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      {% bootstrap_form userform %}
+      {% bootstrap_form profileform %}
+      <input type="submit"  value="Save Changes" class="site-btn w-100 m-2">
+    </form>
+  </div>
+</div>
+{% endblock body %}

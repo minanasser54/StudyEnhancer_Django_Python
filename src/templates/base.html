@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zxx">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Ogani Template">
+    <meta name="keywords" content="Ogani, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{% block title %}{% if title %}{% else %}Study Enhancer {% endif %}{% endblock title %}</title>
+
+    <!-- Google Font -->
+    <link href="{% static "fonts/myfonts.css" %}" rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}" type="text/css">
+    <link rel="stylesheet" href="{% static "css/font-awesome.min.css" %}" type="text/css">
+    <link rel="stylesheet" href="{% static "css/elegant-icons.css" %}" type="text/css">
+    <link rel="stylesheet" href="{% static "css/nice-select.css" %}" type="text/css">
+    <link rel="stylesheet" href="{% static "css/jquery-ui.min.css" %}" type="text/css">
+    <link rel="stylesheet" href="{% static "css/owl.carousel.min.css" %}" type="text/css">
+    <link rel="stylesheet" href="{% static "css/slicknav.min.css" %}" type="text/css">
+    <link rel="stylesheet" href="{% static "css/style.css" %}" type="text/css">
+</head>
+
+<body style="background-color:#AEFFF4;">
+    <!-- Page Preloder -->
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
+
+
+    <!-- Header Section Begin -->
+    <header class="header" style="background-color:white;">
+        <div class="container" >
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="header__logo">
+                        <a href="{% url 'class:class_list'  %}"><img class="m-1"src="{% static "img/Mylogo.png" %}" alt="Study Enhancer"></a>
+                    </div>
+                </div>
+                <div class="col-lg-8" >
+                    <nav class="header__menu">
+                        <ul>
+                          {% if user.is_authenticated %}
+                          {% else %}
+                            <li class="active"><a href="{% url 'home:home'  %}">Home</a></li>
+                            {% endif %}
+
+                            {% if user.is_authenticated %}
+                            <li class="active"><a href="{% url 'class:class_list'  %}">Class</a></li>
+                            <li><a href="{% url 'accounts:profile'  %}">Profile</a>
+                                <ul class="header__menu__dropdown">
+                                    <li><a href="{% url 'accounts:profile_edit'  %}">Edit Profile</a></li>
+                                </ul></li>
+                            <li><a href="{% url 'notes:notes_page'  %}">Notes</a></li>
+                            <li><a href="{% url 'class:onlines'  %}">Onlines</a></li>
+                            <li><a href="{% url 'class:undones'  %}">undone </a></li>
+                            {% endif %}
+                            <li><a href="">Account</a>
+                                <ul class="header__menu__dropdown">
+                                  {% if user.is_authenticated %}
+                                  <li><a href="{% url 'logout'  %}">Logout</a></li>
+                                  <li><a href="{% url 'password_change' %}">Change Password</a></li>
+
+                                  {% else %}
+                                  <li><a href="{% url 'login'  %}">Login</a></li>
+                                  <li><a href="{% url 'accounts:signup'  %}">Signup</a></li>
+                                  {% endif %}
+                                </ul>
+                            </li>
+                            <li><a href="{% url 'contact:contact'  %}">Contact Us</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="">
+                    <div class="header__cart">
+                      {% comment %}
+                        for notifications
+                      {% endcomment %}
+                        <ul>
+                          {% if user.is_authenticated %}
+                          <li><a href="{% url 'logout'  %}"><i class="fa fa-sign-out "></i> </a></li>
+                          <li><a href="{% url 'class:new_class'  %}"><i class="fa fa-plus"></i> </a></li>
+                          {% else %}
+                            <li><a href="{% url 'login'  %}"><i class="fa fa-sign-in"></i></a></li>
+                            <li><a href="{% url 'accounts:signup'  %}"><i class="fa fa-user-plus "></i> </a></li>
+                          {% endif %}
+                        </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- Header Section End -->
+{% block body %}
+{% endblock body %}
+    <!-- Footer Section Begin -->
+    <footer class="footer spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="footer__about">
+                        <div class="footer__about__logo">
+                          <a href="{% url 'class:class_list'  %}"><img class="m-1"src="{% static "img/Mylogo.png" %}" alt="Study Enhancer"></a>
+                        </div>
+                        <ul>
+                            <li></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-5 col-md-12">
+                    <div class="footer__widget">
+
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-12">
+                    <div class="footer__widget">
+                      <h6>by</h6>
+                      <ul>
+                          <li><img class="m-1"src="{% static "img/Minalogo.png" %}" alt="Study Enhancer"></li>
+                      </ul>
+                      <ul>
+                          <li><a href="#"></a></li>
+                      </ul>
+                    </div>
+                </div>
+            </div>
+                </div>
+            </div>
+    </footer>
+<!-- Footer Section End -->
+{% comment %}
+<div class="footer__widget__social">
+    <a href="#"><i class="fa fa-facebook"></i></a>
+    <a href="#"><i class="fa fa-twitter"></i></a>
+</div>
+{% endcomment %}
+    <!-- Js Plugins -->
+    <script src="{% static "js/jquery-3.3.1.min.js" %}"></script>
+    <script src="{% static "js/bootstrap.min.js" %}"></script>
+    <script src="{% static "js/jquery.nice-select.min.js"%}"></script>
+    <script src="{% static "js/jquery-ui.min.js"%}"></script>
+    <script src="{% static "js/jquery.slicknav.js"%}"></script>
+    <script src="{% static "js/mixitup.min.js"%}"></script>
+    <script src="{% static "js/owl.carousel.min.js"%}"></script>
+    <script src="{% static "js/main.js"%}"></script>
+    <script>
+    var vid = document.getElementById("myvideo");
+    vid.onseeking = function() {
+      alert("Seek operation began!");
+    };
+    </script>
+
+
+</body>
+
+</html>

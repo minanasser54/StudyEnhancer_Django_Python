@@ -1,0 +1,175 @@
+{% extends "base.html" %}
+{% block title %}{{lesson}}{% endblock title %}
+{% block body %}
+{% load static %}
+<!-- Product Details Section Begin -->
+<style>
+.myDiv {
+  margin: 0px;
+  display: block;
+  width: 3000px;
+  border: 2px outset black;
+  background-color: white;
+}
+</style>
+<section class="product-details spad">
+    <div class="container">
+        <div class="row">
+          {% if lesson.main_video %}
+            <div class="col-lg-6 col-md-6">
+                <div class="product__details__pic">
+                    <div class="product__details__pic__item">
+                        <h2>main video</h2>
+                        <video id="myvideo"  width="420" height="315" controls="controls" loop="loop" allowfullscreen>
+                          <source src="{{lesson.main_video.url}}" type="video/mp4">
+                          Your browser does not support the video tag.
+                        </video>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            {% endif %}
+            {% if lesson.second_video %}
+              <div class="col-lg-6 col-md-6">
+                  <div class="product__details__pic">
+                      <div class="product__details__pic__item">
+                          <h2>second Video</h2>
+                          <video id="myvideo"  width="420" height="315" controls frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+                            <source src="{{lesson.second_video.url}}" type="video/mp4">
+                            Your browser does not support the video tag.
+                          </video>
+                      </div>
+                  </div>
+              </div>
+              {% else %}
+              {% endif %}
+              {% if lesson.third_video %}
+                <div class="col-lg-6 col-md-6">
+                    <div class="product__details__pic">
+                        <div class="product__details__pic__item">
+                            <h2>Main Video</h2>
+                            <video id="myvideo"  width="420" height="315" controls frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+                              <source src="{{lesson.third_video.url}}" type="video/mp4">
+                              Your browser does not support the video tag.
+                            </video>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                {% endif %}
+          {% if lesson.vid1 %}
+            <div class="col-lg-6 col-md-6">
+                <div class="product__details__pic">
+                    <div class="product__details__pic__item">
+                        <h2>video1</h2>
+                        <iframe class="product__details__pic__item--large" width="420" height="315" src="https://www.youtube.com/embed/{{lesson.vid1}}?controls=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            {% endif %}
+
+            {% if lesson.vid2 %}
+              <div class="col-lg-6 col-md-6">
+                  <div class="product__details__pic">
+                      <div class="product__details__pic__item">
+                          <h2>video2</h2>
+                          <iframe class="product__details__pic__item--large" width="420" height="315" src="https://www.youtube.com/embed/{{lesson.vid2}}?controls=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                      </div>
+                  </div>
+              </div>
+              {% else %}
+              {% endif %}
+              {% if lesson.vid3 %}
+                <div class="col-lg-6 col-md-6">
+                    <div class="product__details__pic">
+                        <div class="product__details__pic__item">
+                            <h2>video3</h2>
+                            <iframe class="product__details__pic__item--large" width="420" height="315" src="https://www.youtube.com/embed/{{lesson.vid3}}?controls=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                {% endif %}
+
+            <div class="col-lg-6 col-md-6">
+                <div class="product__details__text">
+                    <h3>{{lesson}}</h3>
+                    <div class="product__details__rating">
+                        {% if lesson.is_done == True %}
+                        <i class="fa fa-star"></i><span>done lesson</span>
+                        {% endif %}
+                        {% if lesson.is_online == True %}
+                        <i class="fa fa-star"></i><span>online lesson</span>
+                        {% endif %}
+                    </div>
+                    {% ifequal lesson.is_done False  %}
+                    <a href="{% url 'class:mark_done' lesson.slug %}" class="primary-btn">Mark lesson as done </a>
+                    {% else %}
+                    <a href="{% url 'class:un_done' lesson.slug %}" class="primary-btn">Release done Mark</a>
+                    {% endifequal %}
+                    <a href="{% url 'class:class_detail' lesson.main_class.slug %}" class="primary-btn">VieW Main Class</a>
+                    {% if lesson.pdf %}
+                    <a href="{% url 'class:pdf' lesson.slug %}" class="primary-btn">View Lesson pdf </a>
+                    {% else %}{% endif %}
+                    {% ifequal request.user lesson.main_class.owner  %}
+                    <a href="{% url 'class:lesson_edit' lesson.slug %}" ><button class="primary-btn" >Edit Lesson </button></a>
+                    <a href="{% url 'class:del_lesson' lesson.slug %}" class="primary-btn">Delete Lesson </a>
+                    {% endifequal %}{% if lesson.sub_subject_name %}
+                    <div class="product__details__price">{{lesson.sub_subject_name}} in {{lesson.main_class.main_subject}}</div>{% endif %}
+                    <h6>VIDEOS IDS :<hr>{{lesson.vid1}} / {{lesson.vid2 }} / {{lesson.vid3}}</h6><br>
+                    <h5>TuTor & Place :<hr>BY:-{{lesson.main_class.tutor}}</h5><br>
+                    {% if lesson.main_class.place %}
+                    <h5>IN:-{{lesson.main_class.place}}</h5><span>{{lesson.main_class.place.phone}}</span><br>
+                    {% endif %}
+                    <div class="col-lg-6 col-md-6">
+                      <a href="{% url 'class:add_note' lesson.slug %}" class="primary-btn">Add Note </a>
+                      <div class="shoping__cart__table">
+                      <table>
+                          <thead>
+                              <tr>
+                                  <th>note</th>
+                                  <th>By</th>
+                                  <th>IN</th>
+                                  <th>Edit</th>
+                                  <th>Delete</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                            {% for note in notes %}
+                            <tr>
+                                <td class="shoping__cart__price">
+                                    <p>{{note.note|truncatewords:3|safe}}....<a href="{% url 'notes:note_detail' note.slug %}">read more</a></p>
+                                </td>
+                                <td class="shoping__cart__quantity">
+                                    <h6>{{note.user.first_name}} {{note.user.last_name}}</h6>
+                                </td>
+                                <td class="shoping__cart__total">
+                                  <h6>{{note.created_at|date:"D d M Y"}}</h6>
+                                </td>
+                                <td class="shoping__cart__item__close"><a href="{% url 'notes:edit_note' note.slug %}"><span class="fa fa-pencil"></span></a></td>
+                                <td class="shoping__cart__item__close"><a href="{% url 'notes:delete_note' note.slug %}"><span class="icon_close"></span></a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                          </tbody>
+                      </table>
+                      </div>
+                    </div>
+                    {% if lesson.lessons_text %}
+                    <div class="myDiv col-lg-12">
+                      <p class="mt-5"><h1 style="color:green; background-color: coral;">LESSON TEXT:-</h1>{{lesson.lessons_text|safe}}.</p>
+
+                    </div>
+                    {% endif %}
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- Product Details Section End -->
+
+{% endblock body %}

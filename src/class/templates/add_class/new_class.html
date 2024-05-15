@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block body %}
+{% load bootstrap4 %}
+    <!-- Contact Section Begin -->
+    <section class="contact spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-6 text-center">
+                    <div class="contact__widget">
+                        <h4>ADD Class Name</h4>
+                        <p>it will be recorded in your account</p>
+                        <u><p>your last classes</p></u>
+                        {% for class in classes %}
+                          <a href="{% url 'class:class_detail' class.slug %}"><i class="m-1">{{class.title}}</i></a><br>
+                        {% endfor %}
+                        <a href="{% url 'class:add_class'  %}"><button class="site-btn m-2">ADD New</button></a>
+
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 text-center">
+                    <div class="contact__widget">
+                        <h4>Add chapters to Class</h4>
+                        <p>all Class you made will be avilable</p>
+                        {% for class  in classes %}
+                        <a href="{% url 'class:add_chapter' class.slug %}"><button class="site-btn m-2">ADD chapter in <br> {{class}}</button></a>
+                        {% endfor %}
+
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-6 text-center">
+                    <div class="contact__widget">
+                        <h4>Add lessons in chapters</h4>
+                        <p>by providing lessons and chapters</p>
+                        {% for class  in classes %}
+                        <form  method="post">
+                          {% csrf_token %}
+                          {% bootstrap_form form %}
+                            <button type="submit"class="site-btn m-2">ADD lessons to <br>{{class}}</button>
+                        </form>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock body %}

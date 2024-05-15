@@ -1,0 +1,12 @@
+current time
+
+https://www.programiz.com/python-programming/datetime/current-time#:~:text=Example%201%3A%20Current%20time%20using%20datetime%20object&text=Then%2C%20we%20used%20now(),can%20do%20something%20like%20this.
+https://www.w3schools.com/python/python_datetime.asp
+
+send mail doc
+
+https://docs.djangoproject.com/en/3.0/topics/email/
+
+ckeditor
+
+https://github.com/django-ckeditor/django-ckeditor

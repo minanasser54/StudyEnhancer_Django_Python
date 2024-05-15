@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}UN dones{% endblock title %}
+{% block body %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+          <h2 style="color:green;">Notice: you have {{yy|length}} undone lessons</h2>
+            <div class="shoping__cart__table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="shoping__product">UnDone Lessons</th>
+                            <th>Class</th>
+                            <th>Chapter</th>
+                            <th>Day one</th>
+                            <th>is online</th>
+                            <th>Edit</th>
+                            <th>Mark Done</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                      {% for lesson in lessons %}
+                      <tr>
+                          <td class="shoping__cart__item">
+                              <h2><a href="{% url 'class:lesson' lesson.slug %}">{{lesson.title}}</a></h2>
+                          </td>
+                          <td class="shoping__cart__price">
+                              <p><a href="{% url 'class:class_detail' lesson.main_class.slug %}">{{lesson.main_class}}</a></p>
+                          </td>
+                          <td class="shoping__cart__quantity">
+                              <h6>{{lesson.main_chapter}}</h6>
+                          </td>
+                          <td class="shoping__cart__total">
+                            <h6>{{lesson.main_class.get_day_one_display}}</h6>
+                          </td>
+                          <td class="shoping__cart__total">
+                            <h6>{{lesson.is_online}}</h6>
+                          </td>
+                          <td class="shoping__cart__item__close"><a href="{% url 'class:lesson_edit' lesson.slug %}"><span class="fa fa-pencil"></span></a></td>
+                          <td class="shoping__cart__item__close">
+                              <a href="{% url 'class:mark_done' lesson.slug %}"><span class="fa fa-check"></span></a>
+                          </td>
+                      </tr>
+                      {% endfor %}
+                      {% if lessons.has_other_pages %}
+                        <div class="product__pagination">
+                          {% if lessons.has_previous %}
+                            <a href="?page={{ lessons.previous_page_number }}"><i class="fa fa-long-arrow-left"></i></a>
+                          {% endif %}
+                          {% for page in lessons.paginator.page_range %}
+                            <a href="?page={{ page }}">{{page}}</a>
+                          {% endfor %}
+                          {% if lessons.has_next %}
+                            <a href="?page={{ lessons.next_page_number }}"><i class="fa fa-long-arrow-right"></i></a>
+                          {% endif %}
+                        </div>
+                      {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock body %}

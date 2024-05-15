@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}{{profile.user.first_name}} {{profile.user.last_name}}{% endblock title %}
+{% block body %}
+{% load static %}
+<!-- Product Details Section Begin -->
+<section class="product-details spad">
+    <div class="container">
+        <div class="row">
+          {% if profile.img %}
+            <div class="col-lg-6 col-md-6">
+                <div class="product__details__pic">
+                    <div class="product__details__pic__item">
+                        <img class="product__details__pic__item--large"
+                            src="{{profile.img.url}}" alt="">
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            {% endif %}
+
+            <div class="col-lg-6 col-md-6">
+                <div class="product__details__text">
+                    <h3>{{profile.user.first_name}} {{profile.user.last_name}}</h3>
+                    <div class="product__details__rating">
+                        {% if profile.education_position %}
+                        <i class="fa fa-star"></i><span>{{profile.education_position}}</span>
+                        {% endif %}
+                    </div>
+                    {% ifequal profile.user request.user %}
+                    <a href="{% url 'accounts:profile_edit'  %}" ><button class="primary-btn" >Edit Profile </button></a>
+                    <a href="{% url 'accounts:del_account' profile.slug %}" ><button class="primary-btn" >Delete Account </button></a>
+                    {% endifequal %}
+                    <div class="product__details__price">Profile InFo</div>
+                    <h5>IN: {{profile.grade}} grade</h5><br>
+                    <h5>MAIL: {{profile.user.email}} </h5><br>
+
+                    <p class="mt-5">{{profile.bio|safe}}</p>
+
+                    <ul>
+                      <a class="primary-btn"><h1>Your Week</h1> </a><br>
+                      <li><a class="primary-btn"><h4>Saturday</h4></a>{% for clss in sat %}<a href="{% url 'class:class_detail' clss.slug %}">{{clss}}</a> / {% endfor %}</li>
+                      <li><a class="primary-btn"><h4>Sunday</h4></a>{% for clss in sun %}<a href="{% url 'class:class_detail' clss.slug %}">{{clss}}</a> / {% endfor %}</li>
+                      <li><a class="primary-btn"><h4>Monday</h4></a>{% for clss in mon %}<a href="{% url 'class:class_detail' clss.slug %}">{{clss}}</a> / {% endfor %}</li>
+                      <li><a class="primary-btn"><h4>Tuesday</h4></a>{% for clss in tue %}<a href="{% url 'class:class_detail' clss.slug %}">{{clss}}</a> / {% endfor %}</li>
+                      <li><a class="primary-btn"><h4>Wednesday</h4></a>{% for clss in wed %}<a href="{% url 'class:class_detail' clss.slug %}">{{clss}}</a> / {% endfor %}</li>
+                      <li><a class="primary-btn"><h4>Thursday</h4></a>{% for clss in thu %}<a href="{% url 'class:class_detail' clss.slug %}">{{clss}}</a> / {% endfor %}</li>
+                      <li><a class="primary-btn"><h4>Friday</h4></a>{% for clss in fri %}<a href="{% url 'class:class_detail' clss.slug %}">{{clss}}</a> / {% endfor %}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Product Details Section End -->
+
+{% endblock body %}

@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block body %}
+{% load bootstrap4 %}
+{% load static %}
+<section class="hero mt-5">
+    <div class="container">
+      <a href="{% url 'class:new_class'  %}"><button class="site-btn col-md-12 m-5">ADD New Class</button></a>
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="hero__categories">
+                  <form class="hero__categories">
+                    <h2>FILTER</h2>
+                    {% bootstrap_form filter.form%}
+                    <input type="submit"  value="Search" class="site-btn w-100 m-2">
+                  </form>
+                </div>
+            </div>
+              <div class="col-lg-9 col-md-7">
+                  <div class="row">
+                    {% for class in class_list %}
+                    {% ifequal class.owner request.user  %}
+                      <div class="col-lg-4 col-md-6 col-sm-6">
+                          <div class="product__item">
+                              <div class="product__item__pic set-bg" data-setbg="{{class.main_subject.img.url}}" >
+                                  <ul class="product__item__pic__hover">
+                                      <li><a href="{% url 'class:edit_class' class.slug %}"><i class="fa fa-pencil"></i></a></li>
+                                      <li><a href="{% url 'class:add_chapter_old_class' class.slug %}"><i class="fa fa-plus"></i></a></li>
+                                  </ul>
+                              </div>
+                              <div class="product__item__text">
+                                  <h6><a href="{% url 'class:class_detail' class.slug %}">{{class}}</a></h6>
+                                  <h5>{% if class.get_day_one_display %}{{class.get_day_one_display}}{% endif %}{% if class.get_day_two_display %} // {{class.get_day_two_display}}{% endif %}</h5>
+                              </div>
+                          </div>
+                      </div>
+                    {% endifequal %}
+                    {% endfor %}
+                  </div>
+                  {% if class_list.has_other_pages %}
+
+                    <div class="product__pagination"style="background-color:white;">
+                      {% if class_list.has_previous %}
+                        <a href="?page={{ class_list.previous_page_number }}"><i class="fa fa-long-arrow-left" ></i></a>
+                      {% endif %}
+                      {% for page in class_list.paginator.page_range %}
+                        <a href="?page={{ page }}">{{page}}</a>
+                      {% endfor %}
+                      {% if class_list.has_next %}
+                        <a href="?page={{ class_list.next_page_number }}"><i class="fa fa-long-arrow-right"></i></a>
+                      {% endif %}
+                    </div>
+                  {% endif %}
+              </div>
+            </div>
+          </div>
+</section>
+
+{% endblock body %}
